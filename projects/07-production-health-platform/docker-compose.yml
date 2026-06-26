@@ -1,0 +1,61 @@
+services:
+  couchdb:
+    image: couchdb:3
+    environment:
+      COUCHDB_USER: ${COUCHDB_USER:-admin}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD:-password}
+    ports: ["5984:5984"]
+    volumes: ["couch:/opt/couchdb/data"]
+
+  warehouse:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${WAREHOUSE_USER:-wh}
+      POSTGRES_PASSWORD: ${WAREHOUSE_PASSWORD:-wh}
+      POSTGRES_DB: ${WAREHOUSE_DB:-warehouse}
+    ports: ["5432:5432"]
+    volumes: ["wh:/var/lib/postgresql/data"]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  ingestion:
+    build: ./ingestion
+    depends_on: [couchdb, warehouse]
+    environment:
+      COUCHDB_URL: http://${COUCHDB_USER:-admin}:${COUCHDB_PASSWORD:-password}@couchdb:5984
+      COUCHDB_DB: ${COUCHDB_DB:-medic}
+      WAREHOUSE_DSN: postgresql://${WAREHOUSE_USER:-wh}:${WAREHOUSE_PASSWORD:-wh}@warehouse:5432/${WAREHOUSE_DB:-warehouse}
+    restart: unless-stopped
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.7.latest
+    working_dir: /usr/app
+    volumes: ["./transform:/usr/app", "./transform/profiles.yml.example:/root/.dbt/profiles.yml"]
+    environment:
+      WAREHOUSE_HOST: warehouse
+      WAREHOUSE_USER: ${WAREHOUSE_USER:-wh}
+      WAREHOUSE_PASSWORD: ${WAREHOUSE_PASSWORD:-wh}
+      WAREHOUSE_DB: ${WAREHOUSE_DB:-warehouse}
+    depends_on: [warehouse]
+    entrypoint: ["tail", "-f", "/dev/null"]   # run: docker compose run --rm dbt dbt build
+
+  api:
+    build: ./api
+    depends_on: [warehouse, redis]
+    environment:
+      WAREHOUSE_DSN: postgresql://${WAREHOUSE_USER:-wh}:${WAREHOUSE_PASSWORD:-wh}@warehouse:5432/${WAREHOUSE_DB:-warehouse}
+      REDIS_URL: redis://redis:6379/0
+      MARTS_SCHEMA: analytics_marts
+    ports: ["8000:8000"]
+
+  dashboard:
+    image: nginx:alpine
+    volumes: ["./dashboard:/usr/share/nginx/html:ro"]
+    ports: ["8080:80"]
+    depends_on: [api]
+
+volumes:
+  couch:
+  wh:

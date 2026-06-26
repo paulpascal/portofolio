@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-build
+  namespace: health-platform
+spec:
+  schedule: "0 * * * *"          # hourly; tighten or loosen per reporting needs
+  concurrencyPolicy: Forbid       # never overlap runs
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: dbt
+              image: ghcr.io/your-username/health-platform-dbt:latest
+              args: ["build"]      # staging -> intermediate -> marts + tests
+              env:
+                - name: WAREHOUSE_DSN
+                  valueFrom: {secretKeyRef: {name: platform-secrets, key: WAREHOUSE_DSN}}
+              resources:
+                requests: {cpu: "250m", memory: "512Mi"}
+                limits:   {cpu: "1", memory: "1Gi"}

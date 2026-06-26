@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programme BI dashboard (demo)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#faf9f5;--ink:#1c1b18;--muted:#6c6a62;--line:#e7e4db;--accent:#1f6f8b;--card:#fff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;line-height:1.5}
+  .wrap{max-width:1000px;margin:0 auto;padding:30px 22px 64px}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted)}
+  h1{font-size:25px;margin:6px 0 4px;font-weight:650}
+  .lede{color:var(--muted);margin:0 0 16px;max-width:640px}
+  .note{display:inline-block;background:#fff7ed;border:1px solid #f0d9bf;color:#8a5a2b;
+    font-size:13px;padding:6px 11px;border-radius:8px;margin-bottom:24px}
+  .grid{display:grid;gap:14px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:24px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .kpi .n{font-size:22px;font-weight:680}
+  .kpi .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .charts{grid-template-columns:1fr 1fr}
+  @media(max-width:720px){.charts{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 16px 8px}
+  .panel h2{font-size:14px;margin:0 0 10px;font-weight:620}
+  footer{margin-top:36px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono">stage 06 &middot; business intelligence &middot; synthetic data</div>
+  <h1>Community-health programme dashboard</h1>
+  <p class="lede">The reporting layer of the pipeline: it reads the country-month mart built in stage 03
+     and the quality and model reports from stages 02 and 05.</p>
+  <div class="note">⚠ All figures are <strong>synthetic</strong> (machine-generated). No real or confidential data.</div>
+
+  <div class="grid kpis" id="kpis"></div>
+  <div class="grid charts">
+    <div class="panel"><h2>Households visited by country</h2><canvas id="c1" height="220"></canvas></div>
+    <div class="panel"><h2>Average target attainment by country</h2><canvas id="c2" height="220"></canvas></div>
+    <div class="panel"><h2>Households visited by month (all countries)</h2><canvas id="c3" height="220"></canvas></div>
+    <div class="panel"><h2>Sites below target by country (%)</h2><canvas id="c4" height="220"></canvas></div>
+  </div>
+
+  <footer>
+    Built by Paul Alognon-Anani. Marts: DuckDB + SQL (stage 03). Charts: Chart.js. See the
+    <a href="README.md">README</a> for the full pipeline.
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  const q = DATA.quality, mdl = DATA.model || {};
+  const kpis = [
+    {n: DATA.households_by_country.values.reduce((a,b)=>a+b,0).toLocaleString(), l:"households visited (synthetic)"},
+    {n: q.curated_rows.toLocaleString(), l:"curated rows"},
+    {n: q.quarantined_rows, l:"rows quarantined"},
+    {n: q.completeness_pct + "%", l:"completeness"},
+    {n: (q.country_labels_before+" to "+q.country_labels_after), l:"country labels normalised"},
+    {n: mdl.test_roc_auc ?? "n/a", l:"early-warning model AUC"},
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(k=>
+    `<div class="kpi"><div class="n">${k.n}</div><div class="l">${k.l}</div></div>`).join("");
+
+  Chart.defaults.font.family="-apple-system,Segoe UI,Inter,sans-serif";
+  Chart.defaults.color="#6c6a62";
+  const LINE="#e7e4db";
+  const bar=(id,d,color,fmt)=>new Chart(document.getElementById(id),{type:"bar",
+    data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:color,borderRadius:5}]},
+    options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11},maxRotation:45,minRotation:45}},
+      y:{grid:{color:LINE},ticks:{callback:v=>fmt?fmt(v):v}}}}});
+  const line=(id,d,color)=>new Chart(document.getElementById(id),{type:"line",
+    data:{labels:d.labels,datasets:[{data:d.values,borderColor:color,backgroundColor:"rgba(31,111,139,.12)",
+      fill:true,tension:.3,pointRadius:2}]},
+    options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},
+      y:{grid:{color:LINE},ticks:{callback:v=>(v/1000)+"k"}}}}});
+
+  bar("c1", DATA.households_by_country, "#185FA5", v=>v>=1000?(v/1000)+"k":v);
+  bar("c2", DATA.attainment_by_country, "#1D9E75");
+  line("c3", DATA.monthly_households, "#1f6f8b");
+  bar("c4", DATA.below_target_by_country, "#D85A30", v=>v+"%");
+</script>
+</body>
+</html>

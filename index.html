@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Paul Alognon-Anani: data &amp; software engineer</title>
+<meta name="description" content="Data and software engineer in Lomé, Togo. Projects across the data lifecycle: collection, cleaning, quality, transformations, marts, big data, prediction and BI." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#faf9f5;--ink:#1c1b18;--muted:#6c6a62;--line:#e7e4db;--accent:#1a5e77;
+    --green:#3f6e2e;--purple:#5a3f7e;--coral:#9a4f2b}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,"Segoe UI",sans-serif;
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
+  a:hover{border-color:var(--accent)}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:var(--bg);z-index:5}
+  nav .name{font-weight:600;color:var(--ink);border:none}
+  nav .links a{margin-left:20px;font-size:15px;color:var(--muted)} nav .links a:hover{color:var(--ink)}
+  header.hero{padding:60px 0 32px}
+  header.hero h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:38px;line-height:1.2;letter-spacing:-.01em;margin:0 0 18px}
+  header.hero p{font-size:19px;color:#34322d;margin:0 0 12px;max-width:640px}
+  .avail{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-top:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 4px}
+  .btn{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:10px;font-size:15px;
+    font-weight:500;border:1px solid var(--accent);color:#fff;background:var(--accent)}
+  .btn:hover{filter:brightness(1.08);border-color:var(--accent)}
+  .btn.ghost{background:#fff;color:var(--accent)}
+  .btn.ghost:hover{background:#eef5f7}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2.sec{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 6px;max-width:680px}
+  .synth{font-size:12.5px;color:var(--muted);margin:0 0 18px}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 10px}
+  .chip{min-height:38px;font-size:13px;border:1px solid var(--line);background:#fff;color:#55524b;border-radius:20px;
+    padding:0 14px;cursor:pointer;transition:.12s;font-family:inherit;display:inline-flex;align-items:center}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .count{font-size:13px;color:var(--muted);margin:0 0 18px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}header.hero h1{font-size:30px}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 20px 17px;
+    display:flex;flex-direction:column;position:relative;overflow:hidden;
+    transition:transform .14s ease, box-shadow .14s ease, border-color .14s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(28,27,24,.08);border-color:#d8d4c8}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat,var(--coral))}
+  .card .stage{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--cat,var(--coral));
+    font-weight:600;margin-bottom:5px}
+  .card h3{font-size:18px;margin:0 0 8px;font-weight:600;line-height:1.25}
+  .card p{margin:0 0 14px;font-size:14.5px;color:#3a3833;flex:1}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+  .tag{font-size:11px;color:#55524b;border:1px solid var(--line);border-radius:14px;padding:2px 9px;background:#f4f2ea}
+  .links-row a{font-size:13px;font-weight:500;margin-right:14px}
+  .priv{font-size:12.5px;color:var(--muted)}
+  .feat{grid-column:1 / -1;border:1.5px solid #bcdce6;background:linear-gradient(180deg,#f4fafc, #ffffff 40%)}
+  .feat h3{font-size:22px}
+  .feat .badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    background:var(--accent);color:#fff;border-radius:20px;padding:3px 11px;margin-bottom:10px}
+  .feat p{font-size:15.5px;max-width:760px}
+  .empty{grid-column:1 / -1;text-align:center;color:var(--muted);padding:30px 0;font-size:15px}
+  .none{display:none}
+  footer{padding:32px 0 60px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a class="name" href="#top">Paul Alognon-Anani</a>
+    <div class="links"><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="mono">Data &amp; software engineer &middot; Lomé, Togo</div>
+    <h1>I build data systems that hold up in the real world.</h1>
+    <p>For eight years I have built the plumbing behind data: collection tools, pipelines, marts,
+       dashboards and the quality checks that keep numbers trustworthy. Today I work on national-scale
+       digital health data at Medic, across Togo, Mali, Côte d'Ivoire and Uganda.</p>
+    <p>The work below is ordered by weight: the production platform and real engagements first, then
+       open-source projects, then a set of small runnable demos that each isolate one stage of the data
+       lifecycle.</p>
+    <div class="btnrow">
+      <a class="btn" href="mailto:paul.alogno@gmail.com">Email me</a>
+      <a class="btn ghost" href="https://github.com/paulpascal" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <span class="avail"><span class="dot"></span> Open to short, remote data &amp; analytics work alongside my main role</span>
+  </header>
+
+  <section id="projects">
+    <h2 class="sec">Projects</h2>
+    <p class="sub">Filter by what each project does or the architecture it uses.</p>
+    <p class="synth">Numbered demos run on synthetic (machine-generated) data only. No real or confidential data is used anywhere.</p>
+    <div class="filters" id="filters"></div>
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="contact">
+    <h2 class="sec">Contact</h2>
+    <p>Email: <a href="mailto:paul.alogno@gmail.com">paul.alogno@gmail.com</a> &nbsp;&middot;&nbsp; Lomé, Togo (remote-friendly)</p>
+    <p>GitHub: <a href="https://github.com/paulpascal" target="_blank" rel="noopener">github.com/paulpascal</a></p>
+  </section>
+
+  <footer>Built by hand by Paul Alognon-Anani. Demo data is synthetic.</footer>
+</div>
+
+<script>
+  // Set this to the repo that hosts this site so "code" links resolve on GitHub Pages.
+  const REPO = "https://github.com/paulpascal/paul-portfolio";
+  const CAT = {flagship:"#1a5e77", github:"#5a3f7e", practice:"#3f6e2e", demo:"#9a4f2b"};
+
+  function resolve(href){
+    if (/^https?:/.test(href)) return href;            // external link, as-is
+    if (href.endsWith("index.html")) return href;      // live page, served by Pages
+    if (href.endsWith(".md")) return REPO + "/blob/main/" + href;  // doc on GitHub
+    return REPO + "/tree/main/" + href;                // source folder on GitHub
+  }
+
+  const P = [
+    {cat:"flagship", featured:true, stage:"Flagship platform", title:"Production health-data platform (~100k users)",
+     desc:"An end-to-end platform built the way I would ship it: offline-first capture (Flutter) syncing to CouchDB, plus ODK/Kobo pulls, idempotent checkpointed ingestion workers, a dbt warehouse (staging, intermediate, marts) with tests as data quality, a FastAPI and Redis serving layer, Docker, and Kubernetes with autoscaling and a scheduled dbt CronJob.",
+     tags:["collection","data quality","transformation","marts","dashboard","dbt","big data","kubernetes","docker","mobile","couchdb"],
+     links:[["Architecture","projects/07-production-health-platform/docs/architecture.md"],["Code","projects/07-production-health-platform/"]]},
+
+    {cat:"practice", stage:"In practice · Medic", title:"National-scale digital health data",
+     desc:"Build and maintain the data layer and monitoring dashboards for health programmes across several countries, with the data-quality discipline to keep them comparable on shaky connectivity.",
+     tags:["data quality","dashboards","multi-country","PostgreSQL","ETL","BI"],
+     priv:"Datasets and dashboards are not public (sensitive national health data)."},
+
+    {cat:"github", stage:"GitHub · open source", title:"Bookshop ELT pipeline",
+     desc:"Modern ELT for sales analytics: Postgres into Snowflake, dbt layered models (raw, staging, warehouse, marts), Airflow orchestration with container-isolated dbt runs, and a Streamlit dashboard. Reproducible via Docker Compose.",
+     tags:["transformation","marts","dbt","data warehouse","BI","docker","Airflow","Snowflake"],
+     links:[["View on GitHub","https://github.com/paulpascal/bookshop_project"]]},
+    {cat:"github", stage:"GitHub · open source", title:"Big Data Bookshop",
+     desc:"The big-data counterpart to the bookshop pipeline: distributed processing of sales data at scale with columnar (Parquet) storage and aggregation jobs.",
+     tags:["big data","Spark","transformation","docker"],
+     links:[["View on GitHub","https://github.com/paulpascal/bigdata_bookshop"]]},
+    {cat:"github", stage:"GitHub · open source", title:"MongoDB sharded cluster",
+     desc:"A reproducible sharded MongoDB cluster (config servers, four shard replica sets, mongos router) demonstrating horizontal scaling, replication and fault tolerance, all via Docker Compose.",
+     tags:["big data","mongodb","docker","data warehouse"],
+     links:[["View on GitHub","https://github.com/paulpascal/group9_nosql"]]},
+    {cat:"github", stage:"GitHub · open source", title:"ML Model Manager (MLOps)",
+     desc:"A model-training web app focused on the MLOps plumbing: data and model versioning with DVC, a Jenkins CI pipeline, and a clean Flask and scikit-learn service with tests.",
+     tags:["machine learning","mlops","prediction","data quality"],
+     links:[["View on GitHub","https://github.com/paulpascal/versioning_ml_web_app"]]},
+
+    {cat:"practice", stage:"In practice · Kudizy", title:"Financial data pipelines &amp; monitoring",
+     desc:"Led a small team building the pipelines and monitoring that tracked money through a fintech platform, surfaced trends, and caught anomalies fast.",
+     tags:["financial data","pipelines","monitoring","big data"],
+     priv:"Proprietary system."},
+    {cat:"practice", stage:"In practice · DBS Togo", title:"Scholarship data for 60,000+ students",
+     desc:"Built and ran a system that managed records for more than sixty thousand students, with the validation, deduplication and reporting to keep a dataset that size trustworthy.",
+     tags:["large datasets","validation","reporting"],
+     priv:"Proprietary system."},
+    {cat:"practice", stage:"In practice · PiamLab", title:"Payments &amp; analytics platform",
+     desc:"Built payment products and the search and analytics stack behind them (PostgreSQL, ElasticSearch, Logstash), working to fixed delivery timelines.",
+     tags:["analytics","integration","APIs"],
+     priv:"Proprietary system."},
+
+    {cat:"demo", stage:"Demo · collection", title:"Data collection &amp; ingestion",
+     desc:"Flattens nested ODK/Kobo-style form submissions into a tidy long table, landing data faithfully before any cleaning.",
+     tags:["collection","ingestion","Python","batch"],
+     links:[["See the code","projects/01-data-collection/"]]},
+    {cat:"demo", stage:"Demo · data quality", title:"Cleaning &amp; data quality",
+     desc:"Reproducible cleaning plus an assertion-based quality suite (not-null, ranges, referential integrity, outliers). Bad rows are quarantined, not dropped.",
+     tags:["cleaning","data quality","validation","pandas"],
+     links:[["See the code","projects/02-cleaning-quality/"]]},
+    {cat:"demo", stage:"Demo · marts", title:"Transformations &amp; marts",
+     desc:"Staging, fact and mart in DuckDB SQL, the layering you would use in dbt. Builds a site-month fact table and a country-month mart.",
+     tags:["transformation","marts","data warehouse","DuckDB","SQL"],
+     links:[["See the code","projects/03-transformations-marts/"]]},
+    {cat:"demo", stage:"Demo · big data", title:"Large-scale analytics",
+     desc:"A few million events as Parquet partitioned by country, aggregated with DuckDB and partition pruning. Includes the equivalent PySpark job.",
+     tags:["big data","Parquet","Spark","DuckDB"],
+     links:[["See the code","projects/04-big-data-analytics/"]]},
+    {cat:"demo", stage:"Demo · prediction", title:"Prediction (early warning)",
+     desc:"A scikit-learn model that flags which sites are likely to miss target next month, evaluated with ROC AUC and feature importances.",
+     tags:["prediction","machine learning","scikit-learn"],
+     links:[["See the code","projects/05-prediction/"]]},
+    {cat:"demo", stage:"Demo · BI", title:"BI dashboard",
+     desc:"A static, no-backend dashboard reading the marts: coverage by country and month, attainment, sites below target, and headline quality and model numbers.",
+     tags:["dashboard","BI","reporting","Chart.js"],
+     links:[["Open the dashboard","projects/06-bi-dashboard/index.html"],["Code","projects/06-bi-dashboard/"]]},
+  ];
+
+  const FILTERS = ["data quality","transformation","marts","big data","prediction","dashboard","BI",
+                   "dbt","kubernetes","docker","machine learning","mongodb","mlops","mobile"];
+
+  const grid = document.getElementById("grid");
+  const countEl = document.getElementById("count");
+  function render(active){
+    const shown = P.filter(p => !active || p.tags.includes(active));
+    countEl.textContent = active ? `Showing ${shown.length} of ${P.length} projects, filtered by "${active}"`
+                                 : `${P.length} projects`;
+    if (shown.length === 0){
+      grid.innerHTML = `<div class="empty">No projects match that filter. <a href="#" id="reset">Clear filter</a></div>`;
+      document.getElementById("reset").onclick = (e)=>{e.preventDefault();current="";chips();render("");};
+      return;
+    }
+    grid.innerHTML = shown.map(p=>{
+      const links = (p.links||[]).map(l=>{
+        const url = resolve(l[1]);
+        const ext = /^https?:/.test(url);
+        return `<a href="${url}"${ext?' target="_blank" rel="noopener"':''}>${l[0]}</a>`;
+      }).join("");
+      const priv = p.priv?`<div class="priv">${p.priv}</div>`:"";
+      const badge = p.featured?`<span class="badge">Flagship</span>`:"";
+      return `<div class="card ${p.featured?'feat':''}" style="--cat:${CAT[p.cat]}">
+        ${badge}
+        <div class="stage">${p.stage}</div>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+        <div class="links-row">${links}${priv}</div>
+      </div>`;
+    }).join("");
+  }
+  const fbar = document.getElementById("filters");
+  let current = "";
+  function chips(){
+    fbar.innerHTML = `<button class="chip ${current?"":"on"}" data-f="">All</button>` +
+      FILTERS.map(f=>`<button class="chip ${current===f?"on":""}" data-f="${f}">${f}</button>`).join("");
+    fbar.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{current=c.dataset.f;chips();render(current);});
+  }
+  chips(); render("");
+</script>
+</body>
+</html>

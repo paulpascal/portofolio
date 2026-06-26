@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: fact_site_month
+    description: Site-month fact table with target attainment and a below-target flag.
+    columns:
+      - name: site_id
+        tests: [not_null]
+      - name: period
+        tests: [not_null]
+      - name: below_target
+        tests:
+          - accepted_values:
+              values: [0, 1]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [site_id, period]
+
+  - name: mart_country_month
+    description: Country-month reporting roll-up for BI and the annual report.
+    columns:
+      - name: country
+        tests: [not_null]
+      - name: pct_sites_below_target
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100

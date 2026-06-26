@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: Immutable landing zone written by the ingestion workers.
+    tables:
+      - name: documents
+        description: One row per source document (CouchDB / ODK / Kobo), payload as JSONB.
+        loaded_at_field: ingested_at
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 36, period: hour}
+        columns:
+          - name: doc_id
+            tests: [not_null]
+          - name: payload
+            tests: [not_null]

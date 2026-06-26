@@ -1,0 +1,49 @@
+{
+  "source_rows": 3196,
+  "duplicate_rows_removed": 72,
+  "curated_rows": 2874,
+  "quarantined_rows": 250,
+  "completeness_pct": 100.0,
+  "country_labels_before": 31,
+  "country_labels_after": 10,
+  "outliers_flagged": 61,
+  "checks": [
+    {
+      "check": "value_not_null",
+      "severity": "error",
+      "failed_rows": 122,
+      "passed": false
+    },
+    {
+      "check": "value_non_negative",
+      "severity": "error",
+      "failed_rows": 67,
+      "passed": false
+    },
+    {
+      "check": "value_is_numeric",
+      "severity": "error",
+      "failed_rows": 122,
+      "passed": false
+    },
+    {
+      "check": "site_id_in_reference",
+      "severity": "error",
+      "failed_rows": 0,
+      "passed": true
+    },
+    {
+      "check": "value_within_iqr_fence",
+      "severity": "warning",
+      "failed_rows": 61,
+      "passed": false
+    },
+    {
+      "check": "unique_site_period_indicator",
+      "severity": "warning",
+      "failed_rows": 0,
+      "passed": true
+    }
+  ],
+  "note": "synthetic data"
+}

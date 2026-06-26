@@ -1,0 +1,12 @@
+health_platform:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('WAREHOUSE_HOST', 'warehouse') }}"
+      port: 5432
+      user: "{{ env_var('WAREHOUSE_USER', 'wh') }}"
+      password: "{{ env_var('WAREHOUSE_PASSWORD', 'wh') }}"
+      dbname: "{{ env_var('WAREHOUSE_DB', 'warehouse') }}"
+      schema: analytics
+      threads: 4

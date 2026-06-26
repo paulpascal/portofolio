@@ -1,0 +1,57 @@
+{
+  "task": "predict whether a site falls below target next month",
+  "rows_used": 641,
+  "positives_rate": 0.246,
+  "test_roc_auc": 0.973,
+  "confusion_matrix": {
+    "labels": [
+      "on_track",
+      "below_target"
+    ],
+    "matrix": [
+      [
+        116,
+        5
+      ],
+      [
+        8,
+        32
+      ]
+    ]
+  },
+  "top_features": [
+    {
+      "feature": "attainment",
+      "importance": 0.476
+    },
+    {
+      "feature": "households_visited",
+      "importance": 0.173
+    },
+    {
+      "feature": "stockout_days",
+      "importance": 0.167
+    },
+    {
+      "feature": "children_screened",
+      "importance": 0.105
+    },
+    {
+      "feature": "referrals_made",
+      "importance": 0.034
+    },
+    {
+      "feature": "month_num",
+      "importance": 0.018
+    },
+    {
+      "feature": "region_East Africa",
+      "importance": 0.007
+    },
+    {
+      "feature": "region_West Africa",
+      "importance": 0.006
+    }
+  ],
+  "note": "synthetic data; illustrative model"
+}

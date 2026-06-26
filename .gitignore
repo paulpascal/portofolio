@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Generated demo data (regenerate with the scripts; keep the repo light)
+projects/_shared/data/
+projects/04-big-data-analytics/events_parquet/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

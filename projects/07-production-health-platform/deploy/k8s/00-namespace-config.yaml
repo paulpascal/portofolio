@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: health-platform
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+  namespace: health-platform
+data:
+  COUCHDB_DB: "medic"
+  MARTS_SCHEMA: "analytics_marts"
+  INGEST_BATCH: "200"
+  REDIS_URL: "redis://redis:6379/0"
+---
+# Template only. In production create this from a secret manager (Sealed Secrets, External Secrets,
+# Vault), never commit real values.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: platform-secrets
+  namespace: health-platform
+type: Opaque
+stringData:
+  WAREHOUSE_DSN: "postgresql://USER:PASSWORD@warehouse-host:5432/warehouse"
+  COUCHDB_URL: "http://USER:PASSWORD@couchdb:5984"

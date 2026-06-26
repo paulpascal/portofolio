@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Health platform dashboard (07)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#faf9f5;--ink:#1c1b18;--muted:#6c6a62;--line:#e7e4db;--accent:#1f6f8b;--card:#fff}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;line-height:1.5}
+  .wrap{max-width:1000px;margin:0 auto;padding:30px 22px 64px}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  h1{font-size:25px;margin:6px 0 4px;font-weight:650}
+  .lede{color:var(--muted);margin:0 0 14px;max-width:640px}
+  .src{display:inline-block;font-size:12.5px;padding:5px 11px;border-radius:8px;margin-bottom:22px}
+  .live{background:#e1f5ee;border:1px solid #9fe1cb;color:#0f6e56}
+  .sample{background:#fff7ed;border:1px solid #f0d9bf;color:#8a5a2b}
+  .grid{display:grid;gap:14px}.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:22px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .kpi .n{font-size:22px;font-weight:680}.kpi .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .charts{grid-template-columns:1fr 1fr}@media(max-width:720px){.charts{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 16px 8px}
+  .panel h2{font-size:14px;margin:0 0 10px;font-weight:620}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono">project 07 &middot; business intelligence</div>
+  <h1>Community-health platform dashboard</h1>
+  <p class="lede">Reads the dbt marts through the platform API. If the API is not running (for example on
+     a static host) it falls back to a small bundled sample so the page still renders.</p>
+  <div id="src" class="src sample">loading…</div>
+
+  <div class="grid kpis" id="kpis"></div>
+  <div class="grid charts">
+    <div class="panel"><h2>Households visited by country</h2><canvas id="c1" height="220"></canvas></div>
+    <div class="panel"><h2>Average attainment by country</h2><canvas id="c2" height="220"></canvas></div>
+  </div>
+  <footer>Built by Paul Alognon-Anani. API: FastAPI + Redis over dbt marts. Data shown is synthetic.</footer>
+</div>
+
+<script>
+const API = (location.hostname === "localhost") ? "http://localhost:8000" : "";
+const SAMPLE = [
+  {country:"Togo", households_visited:108900, avg_attainment:0.98},
+  {country:"Uganda", households_visited:99200, avg_attainment:0.95},
+  {country:"Mali", households_visited:94100, avg_attainment:1.02},
+  {country:"Kenya", households_visited:91800, avg_attainment:0.96},
+  {country:"Senegal", households_visited:87600, avg_attainment:0.93},
+  {country:"Benin", households_visited:80400, avg_attainment:0.99},
+];
+
+async function load(){
+  let rows, live=false;
+  try{
+    const res = await fetch(API + "/countries", {signal: AbortSignal.timeout(2500)});
+    if(!res.ok) throw new Error("bad status");
+    rows = await res.json(); live = true;
+  }catch(e){ rows = SAMPLE; }
+  const src = document.getElementById("src");
+  src.className = "src " + (live ? "live" : "sample");
+  src.textContent = live ? "● live from the platform API" : "● sample data (API not reachable): synthetic";
+  render(rows);
+}
+
+function render(rows){
+  rows = rows.slice().sort((a,b)=>b.households_visited-a.households_visited);
+  const total = rows.reduce((s,r)=>s+Number(r.households_visited),0);
+  const avg = (rows.reduce((s,r)=>s+Number(r.avg_attainment),0)/rows.length);
+  document.getElementById("kpis").innerHTML = [
+    {n: total.toLocaleString(), l:"households visited"},
+    {n: rows.length, l:"countries reporting"},
+    {n: avg.toFixed(2), l:"avg target attainment"},
+  ].map(k=>`<div class="kpi"><div class="n">${k.n}</div><div class="l">${k.l}</div></div>`).join("");
+
+  Chart.defaults.color="#6c6a62";
+  new Chart(c1,{type:"bar",data:{labels:rows.map(r=>r.country),
+    datasets:[{data:rows.map(r=>r.households_visited),backgroundColor:"#185FA5",borderRadius:5}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v>=1000?(v/1000)+"k":v}}}}});
+  new Chart(c2,{type:"bar",data:{labels:rows.map(r=>r.country),
+    datasets:[{data:rows.map(r=>Number(r.avg_attainment)),backgroundColor:"#1D9E75",borderRadius:5}]},
+    options:{plugins:{legend:{display:false}}}});
+}
+load();
+</script>
+</body>
+</html>
