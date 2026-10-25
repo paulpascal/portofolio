@@ -37,6 +37,9 @@
   nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
   .brand{font-family:"Display",sans-serif;font-weight:800;font-size:15px;letter-spacing:.04em;color:var(--ink)}
   .brand span{color:var(--accent)}
+  @media(max-width:420px){.brand{font-size:12.5px}}
+  .hello{font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink-2);margin:0 0 14px}
+  .hello strong{color:var(--ink);font-weight:700}
   .navlinks{display:flex;gap:26px}
   .navlinks a{color:var(--ink-2);font-size:15px;position:relative}
   .navlinks a::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:1.5px;background:var(--accent);transition:right .3s var(--ease)}
@@ -81,13 +84,14 @@
   .sect-lead{color:var(--ink-2);max-width:640px;margin:16px 0 0}
 
   /* What I do */
-  .pillars{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;border-top:1px solid var(--line-strong)}
-  .pillar{padding:26px 22px 8px 0;border-right:1px solid var(--line);margin-right:22px}
+  .pillars{display:grid;grid-template-columns:repeat(5,1fr);margin-top:44px;border-top:1px solid var(--line-strong)}
+  .pillar{padding:26px 18px 8px 0;border-right:1px solid var(--line);margin-right:18px}
   .pillar:last-child{border-right:none;margin-right:0}
   .pillar .idx{font-family:"Sans",sans-serif;font-weight:700;font-variant-numeric:tabular-nums;font-size:12px;color:var(--accent);letter-spacing:.12em}
   .pillar h3{font-size:1.02rem;margin:12px 0 10px;letter-spacing:-.005em}
   .pillar p{font-size:15px;color:var(--ink-2);margin:0}
-  @media(max-width:860px){.pillars{grid-template-columns:1fr 1fr}.pillar:nth-child(2){border-right:none;margin-right:0}}
+  @media(max-width:980px){.pillars{grid-template-columns:repeat(3,1fr)}.pillar:nth-child(3n){border-right:none;margin-right:0}}
+  @media(max-width:700px){.pillars{grid-template-columns:1fr 1fr}.pillar:nth-child(3n){border-right:1px solid var(--line);margin-right:18px}.pillar:nth-child(2n){border-right:none;margin-right:0}}
   @media(max-width:560px){.pillars{grid-template-columns:1fr}.pillar{border-right:none;margin-right:0;border-bottom:1px solid var(--line)}}
 
   /* Experience */
@@ -148,7 +152,7 @@
 
 <nav class="top">
   <div class="wrap">
-    <a class="brand" href="#top">PAUL<span>.</span>A</a>
+    <a class="brand" href="#top">PAUL ALOGNON<span>-</span>ANANI</a>
     <div class="navlinks">
       <a href="#work" data-i18n="nav.work">What I do</a>
       <a href="#experience" data-i18n="nav.exp">Experience</a>
@@ -165,6 +169,7 @@
 <header class="hero" id="top">
   <div class="grid-bg"></div>
   <div class="wrap hero-in">
+    <p class="hello reveal" data-i18n="hero.hello">Hi, I'm <strong>Paul Alognon-Anani</strong></p>
     <p class="label reveal" data-i18n="hero.label">Software &amp; data engineer · Applied AI</p>
     <h1 class="h-hero"><span id="typed"></span><span class="cursor" aria-hidden="true"></span><span class="accent" id="typed2"></span></h1>
     <p class="lead reveal" data-i18n="hero.lead">Nine years building and running production systems: web and mobile apps, payment products, data pipelines and, more recently, AI workflows with human review. Today I build open-source digital health systems for ministries of health in West and East Africa.</p>
@@ -178,7 +183,7 @@
 
 <div class="stats">
   <div class="stat reveal"><div class="v" data-i18n="s1.v">9 years</div><div class="k" data-i18n="s1.k">web, mobile, data and AI systems in production</div></div>
-  <div class="stat reveal"><div class="v" data-i18n="s2.v">Health · Fintech · Education</div><div class="k" data-i18n="s2.k">also NGOs, public sector, logistics, agriculture</div></div>
+  <div class="stat reveal"><div class="v" data-i18n="s2.v">Multi-sector</div><div class="k" data-i18n="s2.k">health, fintech, education, NGOs, public sector, logistics, agriculture</div></div>
   <div class="stat reveal"><div class="v" data-i18n="s3.v">Data &amp; AI</div><div class="k" data-i18n="s3.k">data science, analytics, data storytelling and automation</div></div>
   <div class="stat reveal"><div class="v">Open source</div><div class="k" data-i18n="s4.k">contributor to a digital public good, the Community Health Toolkit</div></div>
   <div class="stat reveal"><div class="v">EN · FR</div><div class="k" data-i18n="s5.k">bilingual work across West and East Africa</div></div>
@@ -190,10 +195,11 @@
     <h2 class="h-sect reveal" data-i18n="work.title">From the field to the dashboard</h2>
     <p class="sect-lead reveal" data-i18n="work.lead">Most of my work serves public-interest programmes: users on mobile data, several countries and languages, and data people need to trust. I like systems teams can keep running: simple where possible, measured, documented.</p>
     <div class="pillars">
-      <div class="pillar reveal"><div class="idx">01</div><h3 data-i18n="p1.t">Platforms &amp; products</h3><p data-i18n="p1.d">Web and mobile apps with React, Flask, Node.js and Flutter. Search, payments and integrations, bilingual EN/FR, offline-first where connectivity is weak.</p></div>
+      <div class="pillar reveal"><div class="idx">01</div><h3 data-i18n="p1.t">Platforms &amp; products</h3><p data-i18n="p1.d">Web and mobile apps (React, Flask, Node.js, Flutter), shaped with stakeholders and tested with real users. Search, payments, integrations, EN/FR, offline-first.</p></div>
       <div class="pillar reveal"><div class="idx">02</div><h3 data-i18n="p2.t">Data &amp; interoperability</h3><p data-i18n="p2.d">PostgreSQL pipelines, dbt, data quality and deduplication, Superset dashboards, DHIS2 and OpenFN integrations.</p></div>
       <div class="pillar reveal"><div class="idx">03</div><h3 data-i18n="p3.t">Applied AI</h3><p data-i18n="p3.d">RAG, multilingual embeddings, offline models and AI agents that prepare the work while people keep the final decision.</p></div>
       <div class="pillar reveal"><div class="idx">04</div><h3 data-i18n="p4.t">Leading teams</h3><p data-i18n="p4.d">Hands-on lead: code review, CI/CD, mentoring developers and training partner teams, in English and French.</p></div>
+      <div class="pillar reveal"><div class="idx">05</div><h3 data-i18n="p5.t">Cloud &amp; reliability</h3><p data-i18n="p5.d">AWS, Docker, Kubernetes, CI/CD and monitoring: systems that deploy safely, stay up and recover fast.</p></div>
     </div>
   </div>
 </section>
@@ -258,17 +264,19 @@
     },
     fr:{
       "nav.work":"Ce que je fais","nav.exp":"Parcours","nav.projects":"Projets","nav.contact":"Contact","nav.cta":"M'écrire",
+      "hero.hello":"Bonjour, je suis <strong>Paul Alognon-Anani</strong>",
       "hero.label":"Ingénieur logiciel &amp; données · IA appliquée",
       "hero.t1":"Je construis des systèmes logiciels et de données","hero.t2":"qui tiennent sur le terrain.",
       "hero.lead":"Neuf ans à concevoir et faire tourner des systèmes en production : applications web et mobiles, produits de paiement, pipelines de données et, plus récemment, des workflows d'IA avec validation humaine. Aujourd'hui, je construis des systèmes de santé numérique open source pour des ministères de la santé en Afrique de l'Ouest et de l'Est.",
       "hero.cta1":"Voir mon travail",
-      "s1.v":"9 ans","s1.k":"systèmes web, mobiles, data et IA en production","s2.v":"Santé · Fintech · Éducation","s2.k":"et aussi ONG, secteur public, logistique, agriculture","s3.v":"Data &amp; IA","s3.k":"data science, analyse, data storytelling et automatisation","s4.k":"contributeur à un bien public numérique, le Community Health Toolkit","s5.k":"travail bilingue en Afrique de l'Ouest et de l'Est",
+      "s1.v":"9 ans","s1.k":"systèmes web, mobiles, data et IA en production","s2.v":"Multisectoriel","s2.k":"santé, fintech, éducation, ONG, secteur public, logistique, agriculture","s3.v":"Data &amp; IA","s3.k":"data science, analyse, data storytelling et automatisation","s4.k":"contributeur à un bien public numérique, le Community Health Toolkit","s5.k":"travail bilingue en Afrique de l'Ouest et de l'Est",
       "work.label":"Ce que je fais","work.title":"Du terrain au tableau de bord",
       "work.lead":"L'essentiel de mon travail sert des programmes d'intérêt public : des utilisateurs sur données mobiles, plusieurs pays et plusieurs langues, et des données auxquelles on doit pouvoir se fier. J'aime les systèmes que les équipes peuvent faire vivre : simples quand c'est possible, mesurés, documentés.",
-      "p1.t":"Plateformes &amp; produits","p1.d":"Applications web et mobiles avec React, Flask, Node.js et Flutter. Recherche, paiements et intégrations, bilingue FR/EN, hors ligne d'abord quand la connexion est faible.",
+      "p1.t":"Plateformes &amp; produits","p1.d":"Applications web et mobiles (React, Flask, Node.js, Flutter), construites avec les parties prenantes et testées avec de vrais utilisateurs. Recherche, paiements, intégrations, FR/EN, hors ligne d'abord.",
       "p2.t":"Données &amp; interopérabilité","p2.d":"Pipelines PostgreSQL, dbt, qualité des données et dédoublonnage, tableaux de bord Superset, intégrations DHIS2 et OpenFN.",
       "p3.t":"IA appliquée","p3.d":"RAG, embeddings multilingues, modèles hors ligne et agents d'IA qui préparent le travail, la décision finale restant humaine.",
       "p4.t":"Diriger des équipes","p4.d":"Lead impliqué dans le code : revues, CI/CD, encadrement de développeurs et formation des équipes partenaires, en français et en anglais.",
+      "p5.t":"Cloud &amp; fiabilité","p5.d":"AWS, Docker, Kubernetes, CI/CD et monitoring : des systèmes qui se déploient sans risque, restent disponibles et se rétablissent vite.",
       "exp.label":"Parcours","exp.title":"Là où j'ai construit",
       "r1.w":"Mai 2026 · aujourd'hui","r1.t":"Développeur d'applications","r1.d":"Workflows d'IA pour les équipes de programmes de santé, avec validation humaine et garde-fous ; RAG et modèles hors ligne dans des outils de santé numérique pour zones à faible connectivité.",
       "r2.w":"Déc. 2023 · aujourd'hui","r2.t":"Développeur d'applications","r2.d":"Community Health Toolkit (web et Android), déploiements nationaux en Afrique de l'Ouest et de l'Est, pipelines de données et tableaux de bord, interopérabilité DHIS2. Encadrement de développeurs et formation des équipes partenaires.",
