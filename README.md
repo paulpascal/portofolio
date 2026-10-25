@@ -46,16 +46,19 @@ how to drop them into each repo.
 
 ## Publish on GitHub Pages
 
-1. Create a public repo (e.g. `paul-portfolio`, or `your-username.github.io` for the root domain).
+1. Create a public repo named `portofolio` under `github.com/paulpascal`.
 2. `git init && git add . && git commit -m "Portfolio site and data pipeline demos" && git branch -M main`
-   then add your remote and `git push -u origin main`.
+   then `git remote add origin https://github.com/paulpascal/portofolio.git && git push -u origin main`.
 3. In Settings, open Pages, choose "Deploy from a branch", and pick `main` / `/ (root)`.
-4. Site: `https://your-username.github.io/paul-portfolio/`.
-   Dashboard: `.../paul-portfolio/projects/06-bi-dashboard/index.html`.
+4. Site: `https://paulpascal.github.io/portofolio/`.
+   Dashboard: `.../portofolio/projects/06-bi-dashboard/index.html`.
+
+If you name the repo differently, change the `REPO` constant near the top of the `<script>` in
+`index.html` so the "code" links resolve.
 
 ## Before you publish
 
-- Replace the GitHub and LinkedIn placeholders in `index.html` (Contact section).
+- The Contact section in `index.html` already points to paul.alogno@gmail.com and github.com/paulpascal.
 - No real or confidential data lives here. The demos are synthetic by design; generated data and the
   large Parquet folder are git-ignored and rebuilt by the scripts.
 

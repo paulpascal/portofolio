@@ -1,4 +1,4 @@
-# 07 · Production health-data platform
+# 07 · Community health-data platform (reference implementation)
 
 **Lifecycle:** collection to ingestion to staging to intermediate to marts to dashboards (with data quality at every layer)
 **Architecture:** event-sourced collection (CouchDB / ODK / Kobo) to async ingestion workers to warehouse to dbt to BI + mobile, containerised with Docker and deployed on Kubernetes.
